@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg1: #0D1117;
+  --bg2: #161B22;
+  --bg3: #484850;
+  --bg4: #262c35;
+  --border: #434242;
+  --text: #a0a0a0;
+  --text2: #181818;
+  --bggreen: #161B22;
+  --bggreen2: #161b22;
+  --active: #1f6f66;
+  --unactive: #a0a0a0 ;
+
+  --green-300: #00B37E;
+  --green-500: #00875f; 
+}
+
+.span{
+  color: var(--green-500);
+}
