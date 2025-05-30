@@ -1,4 +1,3 @@
-import React from 'react';
 import { Image, Text, View } from 'react-native';
 import ButtonLink from '../components/button';
 
@@ -12,6 +11,7 @@ const Index = () => {
       <Text className='text-[1.5rem] text-white mb-8'>João Constantino</Text>
       
       <ButtonLink title="Sobre nós" href="/about" />
+      <ButtonLink title="Consultar Livros" href="/consultar-livros" />
     </View>
   );
 };
