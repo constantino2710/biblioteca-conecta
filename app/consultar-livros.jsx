@@ -10,27 +10,30 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  buscarLivrosSalvos,
-  buscarNaOpenLibrary,
-  deleteLivro,
-  salvarNoBack4App,
-} from '../api/api';
+import { useLivrosStore } from '../store/useLivrosStore';
 
 export default function ConsultarLivros() {
-  const [livros, setLivros] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [busca, setBusca] = useState('');
-  const [buscando, setBuscando] = useState(false);
+  const {
+    livros,
+    carregarLivros,
+    buscarELivro,
+    removerLivro,
+    carregando,
+    buscando,
+  } = useLivrosStore();
 
-  const carregarLivros = async () => {
-    setCarregando(true);
-    const dados = await buscarLivrosSalvos();
-    setLivros(dados);
-    setCarregando(false);
+  const [busca, setBusca] = useState('');
+
+  const handleBuscarLivro = async () => {
+    const resultado = await buscarELivro(busca);
+    if (!resultado) {
+      Alert.alert('Livro não encontrado');
+    } else {
+      setBusca('');
+    }
   };
 
-  const handleRemover = async (livro) => {
+  const handleRemover = (livro) => {
     Alert.alert(
       "Confirmar exclusão",
       `Deseja realmente remover "${livro.titulo}"?`,
@@ -38,33 +41,11 @@ export default function ConsultarLivros() {
         { text: "Cancelar", style: "cancel" },
         {
           text: "Remover",
-          onPress: async () => {
-            await deleteLivro(livro);
-            carregarLivros();
-          },
+          onPress: () => removerLivro(livro),
           style: "destructive",
         },
       ]
     );
-  };
-
-  const handleBuscarLivro = async () => {
-    if (!busca.trim()) return;
-
-    setBuscando(true);
-    const livro = await buscarNaOpenLibrary(busca.trim());
-    setBuscando(false);
-
-    if (!livro) {
-      Alert.alert('Livro não encontrado');
-      return;
-    }
-
-    const salvo = await salvarNoBack4App(livro);
-    if (salvo) {
-      setLivros((prev) => [salvo, ...prev]);
-      setBusca('');
-    }
   };
 
   useEffect(() => {
@@ -97,9 +78,9 @@ export default function ConsultarLivros() {
         keyExtractor={(item) => item.objectId}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            {item.capaUrl ? (
+            {item.capaUrl && (
               <Image source={{ uri: item.capaUrl }} style={styles.capa} />
-            ) : null}
+            )}
             <View style={{ flex: 1 }}>
               <Text style={styles.tituloLivro}>{item.titulo}</Text>
               <Text style={styles.autor}>Autor: {item.autor}</Text>
@@ -116,6 +97,7 @@ export default function ConsultarLivros() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: '#fff' },
