@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import {
+  atualizarLivro,
   buscarLivrosSalvos,
   buscarNaOpenLibrary,
   deleteLivro,
@@ -7,10 +8,12 @@ import {
 } from '../api/api';
 
 type Livro = {
-  objectId?: string; // Pode ser undefined antes de salvar
+  objectId?: string;
   titulo: string;
   autor: string;
   capaUrl?: string;
+  favorito?: boolean;
+  resenha?: string;
 };
 
 type LivrosStore = {
@@ -20,6 +23,8 @@ type LivrosStore = {
   carregarLivros: () => Promise<void>;
   buscarELivro: (titulo: string) => Promise<Livro | null>;
   removerLivro: (livro: Livro) => Promise<void>;
+  alternarFavorito: (livro: Livro) => Promise<void>;
+  atualizarResenha: (id: string, resenha: string) => Promise<void>;
 };
 
 export const useLivrosStore = create<LivrosStore>((set, get) => ({
@@ -41,7 +46,7 @@ export const useLivrosStore = create<LivrosStore>((set, get) => ({
     set({ buscando: false });
 
     if (livro) {
-      const salvo = await salvarNoBack4App(livro);
+      const salvo = await salvarNoBack4App({ ...livro, favorito: false, resenha: '' });
       if (salvo) {
         set({ livros: [salvo, ...get().livros] });
         return salvo;
@@ -55,5 +60,28 @@ export const useLivrosStore = create<LivrosStore>((set, get) => ({
     await deleteLivro(livro);
     const novos = get().livros.filter((l) => l.objectId !== livro.objectId);
     set({ livros: novos });
+  },
+
+  alternarFavorito: async (livro) => {
+    const novoValor = !livro.favorito;
+    const sucesso = await atualizarLivro(livro.objectId!, { favorito: novoValor });
+    if (sucesso) {
+      set({
+        livros: get().livros.map((l) =>
+          l.objectId === livro.objectId ? { ...l, favorito: novoValor } : l
+        ),
+      });
+    }
+  },
+
+  atualizarResenha: async (id, novaResenha) => {
+    const sucesso = await atualizarLivro(id, { resenha: novaResenha });
+    if (sucesso) {
+      set({
+        livros: get().livros.map((l) =>
+          l.objectId === id ? { ...l, resenha: novaResenha } : l
+        ),
+      });
+    }
   },
 }));

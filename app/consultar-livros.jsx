@@ -20,6 +20,7 @@ export default function ConsultarLivros() {
     removerLivro,
     carregando,
     buscando,
+    alternarFavorito,
   } = useLivrosStore();
 
   const [busca, setBusca] = useState('');
@@ -89,6 +90,14 @@ export default function ConsultarLivros() {
                 style={styles.botaoRemover}
               >
                 <Text style={styles.textoRemover}>Remover</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => alternarFavorito(item)}
+                style={{ marginTop: 10, backgroundColor: '#f1c40f', padding: 8, borderRadius: 5 }}
+              >
+                <Text style={{ color: '#000' }}>
+                  {item.favorito ? 'Desfavoritar' : 'Favoritar'}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -12,6 +12,7 @@ const Index = () => {
       
       <ButtonLink title="Sobre nós" href="/about" />
       <ButtonLink title="Consultar Livros" href="/consultar-livros" />
+      <ButtonLink title="Livros Favoritos" href="/favoritos" />
     </View>
   );
 };
