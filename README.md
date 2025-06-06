@@ -13,6 +13,7 @@
 ![Zustand](https://img.shields.io/badge/Zustand-000000?style=for-the-badge&logo=Zustand&logoColor=white)
 ![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Back4App](https://img.shields.io/badge/Back4App-003B57?style=for-the-badge&logo=Parse&logoColor=white)
 ![Open Library API](https://img.shields.io/badge/OpenLibrary-1A2D3A?style=for-the-badge&logo=openlibrary&logoColor=white)
 
