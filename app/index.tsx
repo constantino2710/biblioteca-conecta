@@ -8,7 +8,7 @@ const Index = () => {
         source={require('../assets/Conecta.png')}
         className='w-[10rem] h-[10rem]'
       />
-      <Text className='text-[1.5rem] text-white mb-8'>João Constantino</Text>
+      <Text className='text-[1.5rem] text-white mb-8'>Biblioteca Conecta</Text>
       
       <ButtonLink title="Sobre nós" href="/about" />
       <ButtonLink title="Consultar Livros" href="/consultar-livros" />
